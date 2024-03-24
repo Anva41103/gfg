@@ -32,13 +32,30 @@ class Solution {
         }
         return false;
     }
+    bool dfs(int n,int p, int vis[], vector <int> adj[])
+    {
+         vis[n]=1;
+            for(auto it: adj[n])
+            {
+                if(vis[it]==0)
+                {
+                    if(dfs(it,n,vis,adj)) return true;
+                }
+                else
+                {
+                    if(it!=p) return true;
+                }
+            }
+            
+        return false;
+    }
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
         int vis[V]={0};
         for(int i=0;i<V;i++)
         {
             if(!vis[i])
-            {if(det(i,vis, adj)) return true;}
+            {if(dfs(i,-1,vis, adj)) return true;}
         }
         return false;
     }
