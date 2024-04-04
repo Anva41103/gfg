@@ -10,36 +10,38 @@ using namespace std;
 
 class Solution {
   public:
-   bool dfs(vector<int> adj[], vector<int>& path, vector<int>& vis, int n, int check[]) {
-    path[n] = 1;
-    vis[n] = 1;
-    check[n]=0;
-    for (int it : adj[n]) {
-        if (!vis[it]) {
-            if (dfs(adj, path, vis, it,check)) return true;
-        } else if (path[it]) {
-            return true;
-        }
-    }
-    check[n]=1;
-    path[n] = 0;
-    return false;
-}
     vector<int> eventualSafeNodes(int v, vector<int> adj[]) {
         // code here
-        vector<int> vis(v, 0);
-    vector<int> path(v, 0);
-    int check[v]={0};
-    vector <int> ans;
-    for (int i = 0; i < v; ++i) {
-        if(!vis[i]) dfs(adj, path, vis, i,check);
-    }
-    for(int i=0;i<v;i++)
-    {
-        if(check[i]) ans.push_back(i);
-    }
-    //reverse(ans.begin(),ans.end());
-        return ans;
+        int inc[v]={0};
+        vector <int> adji[v];
+	    queue <int> q;
+	    for(int i=0;i<v;i++)
+	    {
+	        for(auto it: adj[i])
+	    {
+	        adji[it].push_back(i);
+	        inc[i]++;
+	    }
+	    }
+	    for(int i=0;i<v;i++)
+	    {
+	        if(inc[i]==0) q.push(i);
+	    }
+	    vector<int> topo;
+	    while(!q.empty())
+	    {
+	        int j= q.front();
+	        q.pop();
+	        topo.push_back(j);
+	        for(auto it: adji[j])
+	        {
+	            inc[it]--;
+	            if(inc[it]==0) q.push(it);
+	        }
+	    }
+	    sort(topo.begin(), topo.end());
+	    return topo;
+	    //else return {};
     }
 };
 
