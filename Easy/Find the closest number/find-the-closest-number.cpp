@@ -28,12 +28,9 @@ class Solution{
         
         if (leftDiff < rightDiff) {
             return A[start];
-        } else if (rightDiff < leftDiff) {
-            return A[end];
         } else {
-            // If both differences are the same, return the greater value
-            return max(A[start], A[end]);
-    }
+            return A[end];
+        }
     }
 };
 
